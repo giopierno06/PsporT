@@ -1,0 +1,21 @@
+<%-- cardProdotto.jspf (frammento)
+     card di un singolo prodotto: immagine, marca, nome, prezzo, bottone carrello
+     usata in home.jsp e catalogo.jsp dentro un c:forEach con var="p"
+     va inclusa con l'include statico (<%@ include file %>): il codice viene copiato nella pagina
+     in fase di traduzione e quindi vede la variabile p. con jsp:include p non si vedrebbe
+     richiede che la pagina abbia gia' dichiarato i taglib c e fmt --%>
+<%@ page pageEncoding="UTF-8" %>
+<article class="card-prodotto">
+    <%-- nel db il campo immagine e' gia' un percorso tipo "images/prodotti/p1.jpg" --%>
+    <img src="${pageContext.request.contextPath}/${p.immagine}" alt="<c:out value='${p.nome}'/>">
+    <%-- c:out fa l'escape dell'html: protezione da XSS se nel db c'e' del codice --%>
+    <p class="marca"><c:out value="${p.marca}"/></p>
+    <h3><c:out value="${p.nome}"/></h3>
+    <p class="prezzo">
+        <%-- prezzo formattato come valuta (virgola e simbolo euro)
+             il locale it_IT lo imposta la pagina con fmt:setLocale --%>
+        <fmt:formatNumber value="${p.prezzo}" type="currency" currencySymbol="€"/>
+    </p>
+    <%-- data-id: l'id del prodotto, servira' al javascript per aggiungerlo al carrello --%>
+    <button type="button" data-id="${p.id}">Aggiungi al carrello</button>
+</article>

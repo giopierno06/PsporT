@@ -1,0 +1,467 @@
+/* style.css - foglio di stile unico del sito PsporT
+   approccio mobile first: le regole normali valgono per il telefono,
+   in fondo ci sono le media query (min-width) che sistemano tablet e desktop
+   ordine delle sezioni: variabili, base, pulsanti, header, banner, categorie,
+   card prodotto, catalogo, footer, tablet, desktop */
+
+
+/* ---------- VARIABILI ---------- */
+/* custom properties usate in tutto il file con var(--nome)
+   per cambiare i colori o le misure del sito basta cambiare qui */
+:root {
+    --blu: #0057b8;            /* colore principale (header, prezzi, bottoni card) */
+    --blu-scuro: #003d82;      /* hover, menu e footer */
+    --giallo: #ffcc00;         /* pulsanti principali e ricerca */
+    --testo: #1f2933;          /* testo normale */
+    --testo-chiaro: #6b7280;   /* testo secondario (marca, conteggio, breadcrumb) */
+    --sfondo: #f4f6fd8;        /* sfondo della pagina */
+    --bianco: #ffffff;
+    --bordo: #e2e8f0;
+
+    --raggio: 8px;             /* angoli arrotondati */
+    --ombra: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --larghezza-max: 1200px;   /* larghezza massima del contenuto su schermi grandi */
+}
+
+
+/* ---------- BASE ---------- */
+
+/* box-sizing border-box: width e height comprendono anche padding e bordo */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    color: var(--testo);
+    background: var(--sfondo);
+    line-height: 1.5;
+}
+
+/* immagini mai piu' larghe del contenitore */
+img {
+    max-width: 100%;
+    display: block;
+}
+
+/* link senza colore blu e sottolineatura di default */
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+h1, h2, h3 {
+    line-height: 1.2;
+}
+
+/* ogni section del main centrata e al massimo larga --larghezza-max */
+main > section {
+    max-width: var(--larghezza-max);
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+main h2 {
+    font-size: 1.5rem;
+    margin: 0 0 1.25rem;
+}
+
+
+/* ---------- PULSANTI ---------- */
+/* stile comune a tutti i bottoni del sito */
+.btn,
+.card-prodotto button,
+.search button {
+    display: inline-block;
+    border: none;
+    border-radius: var(--raggio);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+/* .btn = pulsante giallo (es. "Scopri il catalogo" nel banner) */
+.btn {
+    padding: 0.75rem 1.5rem;
+    background: var(--giallo);
+    color: var(--testo);
+}
+
+.btn:hover {
+    background: #e6b800;
+}
+
+
+/* ---------- HEADER ---------- */
+/* sticky: l'header resta attaccato in alto quando si scorre la pagina */
+.site-header {
+    background: var(--blu);
+    color: var(--bianco);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+/* riga in alto: logo, ricerca, link utente
+   flex con wrap: su mobile la ricerca va a capo sotto logo e link */
+.header-top {
+    max-width: var(--larghezza-max);
+    margin: 0 auto;
+    padding: 0.75rem 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.logo {
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+/* link Accedi e Carrello */
+.user-links {
+    display: flex;
+    gap: 1rem;
+    font-weight: 600;
+}
+
+.user-links a:hover {
+    text-decoration: underline;
+}
+
+/* barra di ricerca: su mobile ultima (order 3) e a tutta larghezza */
+.search {
+    order: 3;
+    flex-basis: 100%;
+    display: flex;
+}
+
+/* flex 1: l'input prende tutto lo spazio che resta accanto al bottone */
+.search input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.6rem 0.8rem;
+    border: none;
+    border-radius: var(--raggio) 0 0 var(--raggio);
+    font: inherit;
+}
+
+.search button {
+    padding: 0 1rem;
+    background: var(--giallo);
+    color: var(--testo);
+    border-radius: 0 var(--raggio) var(--raggio) 0;
+}
+
+/* menu categorie: su mobile scorre in orizzontale (overflow-x) invece di andare a capo */
+.main-nav {
+    background: var(--blu-scuro);
+}
+
+.main-nav ul {
+    max-width: var(--larghezza-max);
+    margin: 0 auto;
+    padding: 0 1rem;
+    list-style: none;
+    display: flex;
+    overflow-x: auto;
+}
+
+.main-nav a {
+    display: block;
+    padding: 0.7rem 1rem;
+    white-space: nowrap;
+    font-weight: 500;
+}
+
+.main-nav a:hover {
+    background: var(--blu);
+}
+
+/* voce della categoria aperta in questo momento
+   la classe "attiva" la mette header.jsp, la riga gialla sotto e' la box-shadow inset */
+.main-nav a.attiva {
+    background: var(--blu);
+    box-shadow: inset 0 -3px 0 var(--giallo);
+}
+
+
+/* ---------- BANNER (hero) ---------- */
+/* banner della home a tutta larghezza, sfondo con gradiente (niente immagine) */
+main > section.hero {
+    max-width: none;
+    padding: 3rem 1rem;
+    text-align: center;
+    color: var(--bianco);
+    background: linear-gradient(135deg, var(--blu) 0%, var(--blu-scuro) 100%);
+}
+
+.hero h1 {
+    font-size: 2rem;
+    margin: 0 0 0.5rem;
+}
+
+.hero p {
+    font-size: 1.1rem;
+    margin: 0 0 1.5rem;
+    opacity: 0.9;
+}
+
+
+/* ---------- CATEGORIE (home) ---------- */
+/* griglia con auto-fill: mette tante colonne quante ci stanno, ognuna minimo 140px */
+.griglia-categorie {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1rem;
+}
+
+/* box di una categoria: immagine con il nome sopra
+   position relative serve per posizionare lo span in absolute dentro il box */
+.categoria {
+    position: relative;
+    border-radius: var(--raggio);
+    overflow: hidden;
+    background: var(--blu-scuro);   /* si vede se manca l'immagine */
+    aspect-ratio: 4 / 3;
+    box-shadow: var(--ombra);
+}
+
+/* object-fit cover: l'immagine riempie il box senza deformarsi */
+.categoria img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+/* nome della categoria in basso, con sfumatura scura dietro cosi si legge su ogni foto */
+.categoria span {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0.6rem;
+    color: var(--bianco);
+    font-weight: 700;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+}
+
+/* effetto zoom al passaggio del mouse */
+.categoria:hover img {
+    transform: scale(1.05);
+}
+
+
+/* ---------- CARD PRODOTTO ---------- */
+/* griglia delle card (home e catalogo)
+   minmax(200px, 1fr) = larghezza minima di una card, se la cambio cambia il numero di colonne */
+.griglia-prodotti {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.25rem;
+}
+
+/* card in flex colonna: insieme a margin-top auto sul bottone
+   i bottoni restano tutti allineati in basso anche se i nomi hanno lunghezze diverse */
+.card-prodotto {
+    display: flex;
+    flex-direction: column;
+    background: var(--bianco);
+    border: 1px solid var(--bordo);
+    border-radius: var(--raggio);
+    padding: 1rem;
+    box-shadow: var(--ombra);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* la card si alza un po' al passaggio del mouse */
+.card-prodotto:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* immagine quadrata, contain = si vede tutta senza tagli */
+.card-prodotto img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    background: var(--sfondo);  /* si vede se manca l'immagine */
+    border-radius: var(--raggio);
+    margin-bottom: 0.75rem;
+}
+
+.card-prodotto .marca {
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--testo-chiaro);
+}
+
+.card-prodotto h3 {
+    margin: 0.25rem 0 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.card-prodotto .prezzo {
+    margin: 0 0 1rem;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--blu);
+}
+
+/* bottone "Aggiungi al carrello" */
+.card-prodotto button {
+    margin-top: auto;
+    padding: 0.6rem;
+    background: var(--blu);
+    color: var(--bianco);
+}
+
+.card-prodotto button:hover {
+    background: var(--blu-scuro);
+}
+
+
+/* ---------- CATALOGO ---------- */
+/* breadcrumb sopra il titolo (Home > Catalogo > categoria) */
+.breadcrumb {
+    font-size: 0.9rem;
+    color: var(--testo-chiaro);
+    margin-bottom: 1rem;
+}
+
+.breadcrumb a {
+    color: var(--blu);
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.catalogo h1 {
+    margin: 0 0 0.5rem;
+    font-size: 1.75rem;
+}
+
+.descrizione-categoria {
+    margin: 0 0 0.25rem;
+    color: var(--testo-chiaro);
+}
+
+/* testo "N prodotti" */
+.conteggio {
+    margin: 0 0 1.5rem;
+    font-size: 0.9rem;
+    color: var(--testo-chiaro);
+}
+
+
+/* ---------- FOOTER ---------- */
+.site-footer {
+    margin-top: 2rem;
+    background: var(--blu-scuro);
+    color: var(--bianco);
+}
+
+/* colonne del footer: su mobile una sola (diventano 3 nella media query tablet) */
+.footer-cols {
+    max-width: var(--larghezza-max);
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+.site-footer h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1rem;
+}
+
+.site-footer p {
+    margin: 0;
+    opacity: 0.85;
+}
+
+.site-footer ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.site-footer li {
+    margin-bottom: 0.3rem;
+}
+
+.site-footer a {
+    opacity: 0.85;
+}
+
+.site-footer a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+/* riga del copyright con una linea sottile sopra */
+.site-footer .copyright {
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.85rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+
+/* ---------- TABLET (da 768px) ---------- */
+@media (min-width: 768px) {
+
+    /* header su una riga sola, la ricerca torna in mezzo tra logo e link */
+    .header-top {
+        flex-wrap: nowrap;
+    }
+
+    .search {
+        order: 0;
+        flex: 1;
+        max-width: 500px;
+    }
+
+    /* stesso selettore di sopra (main > section.hero): con solo .hero non funzionava
+       perche' main > section.hero e' piu' specifico e vinceva */
+    main > section.hero {
+        padding: 5rem 1rem;
+    }
+
+    .hero h1 {
+        font-size: 2.75rem;
+    }
+
+    /* footer su 3 colonne */
+    .footer-cols {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+
+/* ---------- DESKTOP (da 1024px) ---------- */
+@media (min-width: 1024px) {
+
+    /* c'e' spazio: il menu non scorre piu' e lo centro */
+    .main-nav ul {
+        justify-content: center;
+    }
+
+    /* tutte e 6 le categorie su una riga (se le categorie cambiano, cambiare il 6) */
+    .griglia-categorie {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
