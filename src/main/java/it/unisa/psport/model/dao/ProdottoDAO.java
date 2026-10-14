@@ -153,6 +153,30 @@ public class ProdottoDAO {
         return prodotti;
     }
 
+
+    // doRetrieveById
+    // cosa fa: prende un solo prodotto attivo dato il suo id
+    // input: id del prodotto
+    // output: il Prodotto, oppure null se non esiste (o non e' piu' in vendita)
+    // usato da: ProdottoServlet (/prodotto?id=N)
+    public Prodotto doRetrieveById(int id) throws SQLException {
+        String sql = "SELECT * FROM prodotto WHERE id = ? AND attivo = TRUE";
+        Prodotto p = null;
+
+        try (Connection con = ds.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                // l'id e' chiave primaria: al massimo una riga, quindi if e non while
+                if (rs.next()) {
+                    p = creaProdotto(rs);
+                }
+            }
+        }
+        return p;
+    }
 }
 
 

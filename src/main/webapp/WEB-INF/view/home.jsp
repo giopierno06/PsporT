@@ -43,7 +43,7 @@
         <h2>Scegli il tuo sport</h2>
         <div class="griglia-categorie">
             <c:forEach var="cat" items="${applicationScope.categorie}">
-                <a class="categoria" href="${pageContext.request.contextPath}/catalogo?categoria=${cat.id}">
+               <a class="categoria" href="${pageContext.request.contextPath}/catalogo?categoria=${cat.id}">
                     <img src="${pageContext.request.contextPath}/images/categorie/${fn:toLowerCase(cat.nome)}.jpg"
                          alt="<c:out value='${cat.nome}'/>">
                     <span><c:out value="${cat.nome}"/></span>
@@ -53,7 +53,7 @@
     </section>
 
     <%-- novita: lista messa in request da HomeServlet
-         per cambiare quanti prodotti si vedono: NUMERO_NOVITA in HomeServlet --%>
+         per cambiare quanti prodotti si vedono: NUMERO_NOVITA in HomeServlet
     <section class="novita">
         <h2>Novità</h2>
 

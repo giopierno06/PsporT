@@ -6,6 +6,7 @@
      richiede che la pagina abbia gia' dichiarato i taglib c e fmt --%>
 <%@ page pageEncoding="UTF-8" %>
 <article class="card-prodotto">
+    <a href="${pageContext.request.contextPath}/prodotto?id=${p.id}">
     <%-- nel db il campo immagine e' gia' un percorso tipo "images/prodotti/p1.jpg" --%>
     <img src="${pageContext.request.contextPath}/${p.immagine}" alt="<c:out value='${p.nome}'/>">
     <%-- c:out fa l'escape dell'html: protezione da XSS se nel db c'e' del codice --%>
@@ -16,6 +17,7 @@
              il locale it_IT lo imposta la pagina con fmt:setLocale --%>
         <fmt:formatNumber value="${p.prezzo}" type="currency" currencySymbol="€"/>
     </p>
+    </a>
     <%-- data-id: l'id del prodotto, servira' al javascript per aggiungerlo al carrello --%>
     <button type="button" data-id="${p.id}">Aggiungi al carrello</button>
 </article>
