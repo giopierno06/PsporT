@@ -18,6 +18,8 @@
             <input type="search" name="q" value="<c:out value='${requestScope.ricerca}'/>" placeholder="Cerca un prodotto, uno sport, una marca..." aria-label="Cerca">
             <button type="submit">Cerca</button>
         </form>
+        <%-- suggerimenti AJAX della ricerca (JSON da /ricerca/suggerimenti); defer: parte dopo che la pagina e' stata letta --%>
+        <script src="${pageContext.request.contextPath}/js/ricerca.js" defer></script>
 
         <%-- link utente
              da fare: se l'utente e' loggato (attributo in sessione) mostrare il nome al posto di Accedi --%>

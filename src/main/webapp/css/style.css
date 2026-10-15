@@ -14,7 +14,7 @@
     --giallo: #ffcc00;         /* pulsanti principali e ricerca */
     --testo: #1f2933;          /* testo normale */
     --testo-chiaro: #6b7280;   /* testo secondario (marca, conteggio, breadcrumb) */
-    --sfondo: #f4f6fd8;        /* sfondo della pagina */
+    --sfondo: #f4f6f8;      /* sfondo della pagina */
     --bianco: #ffffff;
     --bordo: #e2e8f0;
 
@@ -141,6 +141,43 @@ main h2 {
     order: 3;
     flex-basis: 100%;
     display: flex;
+}
+
+/* suggerimenti AJAX: lista sotto la barra (il form fa da riferimento per la posizione) */
+.search {
+    position: relative;
+}
+
+.suggerimenti {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    margin: 0.25rem 0 0;
+    padding: 0;
+    list-style: none;
+    background: var(--bianco);
+    border-radius: var(--raggio);
+    box-shadow: var(--ombra);
+    overflow: hidden;
+}
+
+.suggerimenti a {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem 0.8rem;
+    color: var(--testo);
+    text-decoration: none;
+}
+
+.suggerimenti a:hover,
+.suggerimenti a:focus {
+    background: var(--sfondo);
+}
+
+.suggerimenti small {
+    color: var(--testo-chiaro);
 }
 
 /* flex 1: l'input prende tutto lo spazio che resta accanto al bottone */
@@ -366,6 +403,134 @@ main > section.hero {
 }
 
 
+/* ---------- DETTAGLIO PRODOTTO ---------- */
+/* pagina prodotto.jsp: su mobile una colonna (immagine sopra, info sotto)
+   da 768px la section diventa una griglia a 2 colonne (vedi media query tablet)
+   le regole di .card-prodotto (.prezzo, button...) qui non valgono, per questo servono quelle sotto */
+
+/* il breadcrumb occupa tutta la riga: in griglia sarebbe una cella a se',
+   1 / -1 = dalla prima all'ultima linea della griglia (su mobile non ha effetto) */
+.dettaglio-prodotto .breadcrumb {
+    grid-column: 1 / -1;
+}
+
+/* immagine quadrata, contain = si vede tutta senza tagli (come nella card) */
+.prodotto-immagine img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    background: var(--bianco);
+    border: 1px solid var(--bordo);
+    border-radius: var(--raggio);
+}
+
+.prodotto-info .marca {
+    margin: 0;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--testo-chiaro);
+}
+
+.prodotto-info h1 {
+    margin: 0.25rem 0 0.75rem;
+    font-size: 1.75rem;
+}
+
+.prodotto-info .prezzo {
+    margin: 0 0 1rem;
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--blu);
+}
+
+.prodotto-info .descrizione {
+    margin: 0 0 1.5rem;
+    color: var(--testo-chiaro);
+}
+
+/* messaggio quando il prodotto non ha varianti */
+.prodotto-info .non-disponibile {
+    margin: 0 0 1rem;
+    font-weight: 600;
+    color: var(--testo-chiaro);
+}
+
+/* gruppo delle taglie: tolgo il bordo di default del fieldset
+   flex con wrap: le taglie vanno a capo se non ci stanno */
+.taglie {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0 0 1.5rem;
+    padding: 0;
+    border: none;
+}
+
+/* titolo "Taglia" del gruppo: senza padding e con un po' di spazio sotto */
+.taglie legend {
+    padding: 0;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+/* radio nascosto ma ancora raggiungibile da tastiera (non uso display: none)
+   la label e' relative cosi il radio absolute resta dentro di lei */
+.taglia {
+    position: relative;
+}
+
+.taglia input {
+    position: absolute;
+    opacity: 0;
+}
+
+/* quello che si vede: il riquadro con la taglia */
+.taglia span {
+    display: inline-block;
+    min-width: 3rem;
+    padding: 0.5rem 0.8rem;
+    text-align: center;
+    background: var(--bianco);
+    border: 1px solid var(--bordo);
+    border-radius: var(--raggio);
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.taglia span:hover {
+    border-color: var(--blu);
+}
+
+/* taglia scelta: il + e' il selettore "fratello successivo" (lo span subito dopo il radio selezionato) */
+.taglia input:checked + span {
+    background: var(--blu);
+    border-color: var(--blu);
+    color: var(--bianco);
+}
+
+/* focus da tastiera: senza il radio visibile servirebbe un altro segnale */
+.taglia input:focus-visible + span {
+    outline: 2px solid var(--blu-scuro);
+    outline-offset: 2px;
+}
+
+/* taglia esaurita: sbiadita e barrata, il cursore indica che non si puo' scegliere */
+.taglia.esaurita span {
+    opacity: 0.4;
+    text-decoration: line-through;
+    cursor: not-allowed;
+}
+
+/* pulsante disabilitato (nessuna variante): grigio, cursore "vietato"
+   :disabled e' lo stato del bottone con l'attributo disabled */
+.prodotto-info .btn:disabled {
+    background: var(--bordo);
+    color: var(--testo-chiaro);
+    cursor: not-allowed;
+}
+
+
 /* ---------- FOOTER ---------- */
 .site-footer {
     margin-top: 2rem;
@@ -421,6 +586,13 @@ main > section.hero {
 }
 
 
+/* ---------- DETTAGLIO PRODOTTO ---------- */
+  .dettaglio-prodotto img {
+      border-radius: var(--raggio);
+      background: var(--bianco);
+  }
+
+
 /* ---------- TABLET (da 768px) ---------- */
 @media (min-width: 768px) {
 
@@ -443,6 +615,15 @@ main > section.hero {
 
     .hero h1 {
         font-size: 2.75rem;
+    }
+
+    /* dettaglio prodotto: immagine a sinistra e info a destra
+       align-items start: le info stanno in alto invece di allungarsi quanto l'immagine */
+    .dettaglio-prodotto {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        align-items: start;
     }
 
     /* footer su 3 colonne */
